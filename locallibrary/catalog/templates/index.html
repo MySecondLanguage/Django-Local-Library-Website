@@ -19,13 +19,16 @@
 {% if user.is_authenticated %}
 
 <form method="POST" action="/user_logout">
-  <input type="submit" value="Logout">
+    {% csrf_token %}
+    <input type="submit", value="Logout">
 </form>
 
 {% else %}
 
 <p>You are not logged in</p>
 <a href="{% url 'user_login' %}">Click here to login</a>
+
+
 
 {% endif %}
 
