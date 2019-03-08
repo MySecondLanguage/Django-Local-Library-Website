@@ -1,6 +1,8 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, HttpResponseRedirect
 from .models import BookInstance, Book, Author, Genre
 from django.views import generic
+from django.contrib.auth import login, logout, authenticate
+from django.urls import reverse
 
 def index(request):
     num_books = Book.objects.all().count()
@@ -40,4 +42,28 @@ class AuthorListView(generic.ListView):
     model = Author
     context_object_name = 'author_list'
     queryset = Author.objects.order_by('first_name')
+
+def user_login(request):
+    context = {}
+    if request.method == 'POST':
+        username = request.POST['username']
+        password = request.POST['password']
+        user = authenticate(request, username=username, password=password)
+        if user:
+            login(request, user)
+            return HttpResponseRedirect(reverse('user_success'))
+    else:
+        context['error'] = "Provide VALID Credential"
+        return render(request, 'registration/user_login.html', context)
+
+def success(request):
+    context = {}
+    context['user'] = request.user
+    return render(request, 'registration/login_success.html', context)
+
+def user_logout(request):
+    if request.method == 'POST':
+        logout(request)
+        return HttpResponseRedirect(reverse('user_login'))
+
 

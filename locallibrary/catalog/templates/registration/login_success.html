@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+{% if user.is_authenticated %}
+
+<h1>Congrates! {{ user.username }}</h1>
+<h2>You are successfully logged in</h2>
+
+
+
+<form method="POST" action="/user_logout">
+    {% csrf_token %}
+    <input type="submit", value="Logout">
+</form>
+{% else %}
+<p> oh ho!! you are not logged in, </p>
+<a href="{% url 'user_login' %}">Click here to login</a>
+{% endif %}
+
+{% endblock %}

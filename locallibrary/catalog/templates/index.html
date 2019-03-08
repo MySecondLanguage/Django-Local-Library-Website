@@ -14,12 +14,19 @@
 
   <p>You have visited this page {{ num_visits }}{% if num_visits == 1 %} time{% else %} times{% endif %}.</p>
 
-<!----
+<hr>
 
 {% if user.is_authenticated %}
-  <a href="{% url 'logout' %}?next=/">logout</a>
+
+<form method="POST" action="/user_logout">
+  <input type="submit" value="Logout">
+</form>
+
 {% else %}
-<a href="{% url 'login' %}">Login</a>
+
+<p>You are not logged in</p>
+<a href="{% url 'user_login' %}">Click here to login</a>
+
 {% endif %}
---->
+
 {% endblock %}
